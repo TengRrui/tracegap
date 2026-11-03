@@ -68,6 +68,18 @@ class CliTests(unittest.TestCase):
         self.assertEqual(data["error"]["code"], "read_error")
         self.assertEqual(result.stderr, "")
 
+    def test_corrupt_deflate_payload_returns_structured_read_error(self):
+        path = self.root / "corrupt.json.gz"
+        payload = bytearray(gzip.compress(b'{"traceEvents":[]}'))
+        payload[10] = 255  # Reserved DEFLATE block type after the gzip header.
+        path.write_bytes(payload)
+        result = self.run_cli(path, "--json")
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stderr, "")
+        data = json.loads(result.stdout)
+        self.assertFalse(data["ok"])
+        self.assertEqual(data["error"]["code"], "read_error")
+
     def test_cpu_only_trace_returns_actionable_text_error(self):
         path = self.root / "cpu.json"
         path.write_text(json.dumps(document(gpu(cat="cpu_op"))), encoding="utf-8")

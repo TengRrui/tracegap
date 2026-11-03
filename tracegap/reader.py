@@ -6,6 +6,7 @@ import gzip
 import io
 import json
 import math
+import zlib
 from dataclasses import dataclass
 from decimal import Decimal
 from fractions import Fraction
@@ -152,6 +153,6 @@ def load_trace(path: str | Path) -> Trace:
             source = gzip.GzipFile(fileobj=raw) if magic == b"\x1f\x8b" or path.suffix == ".gz" else raw
             with io.TextIOWrapper(source, encoding="utf-8-sig") as text:
                 document = read_document(text)
-    except (OSError, EOFError) as exc:
+    except (OSError, EOFError, zlib.error) as exc:
         raise TraceError("read_error", f"{path}: {exc}") from exc
     return parse_trace(document)
