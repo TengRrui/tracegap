@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: '3.10'
+          - os: ubuntu-latest
+            python: '3.14'
+          - os: windows-latest
+            python: '3.12'
+          - os: macos-latest
+            python: '3.12'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Test with standard library only
+        run: python -m unittest discover -v
+      - name: Install build tools
+        run: python -m pip install build ruff
+      - name: Lint
+        run: python -m ruff check .
+      - name: Build source and wheel
+        run: python -m build
+      - name: Install the wheel without dependencies
+        shell: bash
+        run: python -m pip install --no-deps dist/*.whl
+      - name: Exercise installed command and bundled data outside checkout
+        working-directory: ${{ runner.temp }}
+        run: |
+          tracegap --version
+          tracegap --demo --top 0
+          python -c "import json,subprocess; d=json.loads(subprocess.check_output(['tracegap','--demo','--json'])); assert d['devices'][0]['busy_ms'] == 8"

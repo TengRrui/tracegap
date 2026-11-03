@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tracegap"
+version = "0.1.0"
+description = "Find recorded GPU activity, concurrency and gaps in PyTorch Chrome traces"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "TengRrui"}]
+dependencies = []
+keywords = ["pytorch", "profiler", "gpu", "inference", "cli", "chrome-trace"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.scripts]
+tracegap = "tracegap.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/TengRrui/tracegap"
+Issues = "https://github.com/TengRrui/tracegap/issues"
+
+[tool.setuptools]
+packages = ["tracegap"]
+
+[tool.setuptools.package-data]
+tracegap = ["demo.json"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100

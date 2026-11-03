@@ -2,9 +2,9 @@ import itertools
 import random
 import unittest
 
+from tests.helpers import document, gpu
 from tracegap.analysis import analyze
 from tracegap.reader import TraceError, parse_trace
-from tests.helpers import document, gpu
 
 
 def three_spans():

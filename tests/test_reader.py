@@ -5,8 +5,8 @@ import unittest
 from fractions import Fraction
 from pathlib import Path
 
-from tracegap.reader import TraceError, load_trace, parse_trace
 from tests.helpers import document, gpu
+from tracegap.reader import TraceError, load_trace, parse_trace
 
 
 class ReaderTests(unittest.TestCase):
@@ -99,9 +99,8 @@ class ReaderTests(unittest.TestCase):
 
     def test_malformed_root_or_event_is_rejected(self):
         for source in ({}, {"traceEvents": {}}, 7, ["not an event"]):
-            with self.subTest(source=source):
-                with self.assertRaises(TraceError):
-                    parse_trace(source)
+            with self.subTest(source=source), self.assertRaises(TraceError):
+                parse_trace(source)
 
     def test_missing_file_and_corrupt_gzip_have_read_diagnostics(self):
         path = self.root / "bad.json.gz"

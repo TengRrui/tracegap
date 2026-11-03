@@ -1,0 +1,13 @@
+{
+  "displayTimeUnit": "ms",
+  "traceEvents": [
+    {"ph":"M","name":"process_name","pid":0,"args":{"name":"GPU 0"}},
+    {"ph":"X","cat":"cpu_op","name":"model_inference","pid":100,"tid":100,"ts":999000,"dur":12000},
+    {"ph":"X","cat":"kernel","name":"gemm","pid":0,"tid":7,"ts":1000000,"dur":4000,"args":{"device":0,"stream":7}},
+    {"ph":"X","cat":"kernel","name":"relu","pid":0,"tid":8,"ts":1002000,"dur":4000,"args":{"device":0,"stream":8}},
+    {"ph":"X","cat":"gpu_memcpy","name":"Memcpy HtoD","pid":0,"tid":7,"ts":1008000,"dur":2000,"args":{"device":0,"stream":7}},
+    {"ph":"X","cat":"kernel","name":"gemm","pid":1,"tid":7,"ts":1001000,"dur":2000,"args":{"device":1,"stream":7}},
+    {"ph":"X","cat":"gpu_memset","name":"Memset","pid":1,"tid":7,"ts":1004000,"dur":1000,"args":{"device":1,"stream":7}},
+    {"ph":"X","cat":"kernel","name":"relu","pid":1,"tid":7,"ts":1009000,"dur":1000,"args":{"device":1,"stream":7}}
+  ]
+}

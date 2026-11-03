@@ -1,0 +1,4 @@
+include CONTRIBUTING.md
+recursive-include tests *.py
+recursive-include docs *.md
+include tracegap/demo.json
